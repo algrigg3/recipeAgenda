@@ -1,0 +1,17 @@
+<div id="recipesGrid"></div>
+
+<script type="module">
+  import { getAllRecipes } from './js/main.js';
+
+  window.onload = async () => {
+    const recipes = await getAllRecipes();
+    const grid = document.getElementById('recipesGrid');
+    grid.innerHTML = recipes.map(recipe => `
+      <div class="card">
+        <h3>${recipe.title}</h3>
+        <p>${recipe.category}</p>
+        <a href="detail.html?id=${recipe._id}">View Recipe</a>
+      </div>
+    `).join('');
+  };
+</script>

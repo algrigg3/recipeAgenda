@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recipe Detail</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', cursive;
+      background-color: #fff8f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #ffcf99;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 28px;
+      color: #ff6f61;
+    }
+
+    nav a {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: 2px solid white;
+      border-radius: 20px;
+      background: #ffb386;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card {
+      background: #ff6f61;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 30px;
+      width: 85%;
+      color: white;
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr;
+      gap: 20px;
+    }
+
+    .card h3 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 22px;
+    }
+
+    .card input, .card textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    .category, .image {
+      text-align: center;
+    }
+
+    .image {
+      background: #ddd;
+      height: 150px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons button {
+      margin: 10px;
+      padding: 10px 30px;
+      border-radius: 20px;
+      border: 2px solid #ff6f61;
+      background: white;
+      color: #ff6f61;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      background: #ff6f61;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RecipeAgenda</h1>
+    <nav>
+      <a href="create.html">Create</a>
+      <a href="recipeBook.html">Recipe Book</a>
+      <a href="#">Logout</a>
+    </nav>
+  </header>
+
+  <form id="detailForm">
+    <div class="card">
+      <div>
+        <h3>Title:</h3>
+        <input id="title" />
+        <h3>Ingredients:</h3>
+        <textarea id="ingredients" rows="6"></textarea>
+      </div>
+      <div>
+        <h3>Steps:</h3>
+        <textarea id="steps" rows="10"></textarea>
+      </div>
+      <div>
+        <div class="image">image</div>
+        <h3>Category:</h3>
+        <input id="category" />
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit">Edit</button>
+      <button type="button" id="deleteBtn">Delete</button>
+    </div>
+  </form>
+
+  <script type="module">
+    import { getRecipeById, updateRecipe, deleteRecipe } from './js/main.js';
+
+    const id = new URLSearchParams(window.location.search).get('id');
+
+    window.onload = async () => {
+      const recipe = await getRecipeById(id);
+      title.value = recipe.title;
+      ingredients.value = recipe.ingredients.join(', ');
+      steps.value = recipe.steps;
+      category.value = recipe.category;
+    };
+
+    document.getElementById('detailForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await updateRecipe(id, {
+        title: title.value,
+        ingredients: ingredients.value.split(',').map(i => i.trim()),
+        steps: steps.value,
+        category: category.value
+      });
+      alert("Recipe updated!");
+    });
+
+    document.getElementById('deleteBtn').addEventListener('click', async () => {
+      if (confirm('Delete this recipe?')) {
+        await deleteRecipe(id);
+        alert("Recipe deleted");
+        window.location.href = "recipeBook.html";
+      }
+    });
+  </script>
+</body>
+</html>

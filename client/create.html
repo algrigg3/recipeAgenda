@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Recipe</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', cursive;
+      background-color: #fff8f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #ffcf99;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 28px;
+      color: #ff6f61;
+    }
+
+    nav a {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: 2px solid white;
+      border-radius: 20px;
+      background: #ffb386;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card {
+      background: #ff6f61;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 30px;
+      width: 85%;
+      color: white;
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr;
+      gap: 20px;
+    }
+
+    .card h3 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 22px;
+    }
+
+    .card input, .card textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    .category, .image {
+      text-align: center;
+    }
+
+    .image {
+      background: #ddd;
+      height: 150px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+    }
+
+    .submit-btn {
+      margin-top: 30px;
+    }
+
+    .submit-btn button {
+      margin: 10px;
+      padding: 12px 40px;
+      border-radius: 20px;
+      border: 2px solid #ff6f61;
+      background: white;
+      color: #ff6f61;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit-btn button:hover {
+      background: #ff6f61;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RecipeAgenda</h1>
+    <nav>
+      <a href="create.html">Create</a>
+      <a href="recipeBook.html">Recipe Book</a>
+      <a href="#">Logout</a>
+    </nav>
+  </header>
+
+  <form id="createForm">
+    <div class="card">
+      <div>
+        <h3>Title:</h3>
+        <input id="title" required />
+        <h3>Ingredients:</h3>
+        <textarea id="ingredients" rows="6" required></textarea>
+      </div>
+      <div>
+        <h3>Steps:</h3>
+        <textarea id="steps" rows="10" required></textarea>
+      </div>
+      <div>
+        <div class="image">image</div>
+        <h3>Category:</h3>
+        <input id="category" required />
+        <h3>Image URL:</h3>
+        <input id="image" placeholder="https://..." />
+      </div>
+    </div>
+
+    <div class="submit-btn">
+      <button type="submit">Submit Recipe</button>
+    </div>
+  </form>
+
+  <script type="module">
+    import { createRecipe } from './js/main.js';
+
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const recipe = {
+        title: title.value,
+        category: category.value,
+        ingredients: ingredients.value.split(',').map(i => i.trim()),
+        steps: steps.value,
+        imageUrl: image.value
+      };
+
+      await createRecipe(recipe);
+      alert("✅ Recipe created!");
+      window.location.href = "recipeBook.html";
+    });
+  </script>
+</body>
+</html>
