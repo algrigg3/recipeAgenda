@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:5000/api/recipes';
+const API_BASE = 'https://recipeagenda-backend.onrender.com/api/recipes';
 
 export async function getAllRecipes() {
   const token = localStorage.getItem('token');
