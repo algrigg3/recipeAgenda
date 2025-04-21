@@ -3,14 +3,15 @@ git
 export async function getAllRecipes() {
   const token = localStorage.getItem('token');
 
-  const res = await fetch('https://recipeagenda-backend.onrender.com/api/recipes', {
+  const res = await fetch(API_BASE, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch recipes');
+    const errorText = await res.text();
+    throw new Error(`❌ Failed to fetch recipes: ${res.status} ${errorText}`);
   }
 
   return res.json();
