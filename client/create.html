@@ -3,132 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <title>Create Recipe</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', cursive;
-      background-color: #fff8f2;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff8f2;
+  margin: 0;
+  padding: 0;
+}
 
-    header {
-      background: #ffcf99;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+header {
+  background: #ffcf99;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    header h1 {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 28px;
-      color: #ff6f61;
-    }
+header h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #ff6f61;
+}
 
-    nav a {
-      margin: 0 10px;
-      padding: 10px 20px;
-      border: 2px solid white;
-      border-radius: 20px;
-      background: #ffb386;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
+nav a {
+  margin-left: 15px;
+  padding: 10px 20px;
+  border: 2px solid white;
+  border-radius: 20px;
+  background: #ffb386;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .card {
-      background: #ff6f61;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 30px;
-      width: 85%;
-      color: white;
-      display: grid;
-      grid-template-columns: 2fr 2fr 1fr;
-      gap: 20px;
-    }
+form {
+  margin-top: 40px;
+}
 
-    .card h3 {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 22px;
-    }
+.card {
+  background: #ff6f61;
+  border-radius: 30px;
+  width: 85%;
+  margin: 40px auto;
+  padding: 40px;
+  display: flex;
+  gap: 40px;
+  color: white;
+  justify-content: space-between;
+}
 
-    .card input, .card textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 14px;
-      resize: vertical;
-    }
+.form-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
-    .category, .image {
-      text-align: center;
-    }
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+.form-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .image {
-      background: #ddd;
-      height: 150px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #444;
-    }
+.form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: flex-start;
+}
 
-    .submit-btn {
-      margin-top: 30px;
-    }
+h3 {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
 
-    .submit-btn button {
-      margin: 10px;
-      padding: 12px 40px;
-      border-radius: 20px;
-      border: 2px solid #ff6f61;
-      background: white;
-      color: #ff6f61;
-      font-weight: bold;
-      font-size: 16px;
-      cursor: pointer;
-    }
+input, textarea {
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 16px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    .submit-btn button:hover {
-      background: #ff6f61;
-      color: white;
-    }
+textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+
+input::placeholder {
+  color: #ffffffcc;
+}
+
+
+.submit-btn {
+  margin: 40px auto;
+  text-align: center;
+}
+
+.submit-btn button {
+  padding: 12px 40px;
+  border-radius: 20px;
+  border: 2px solid #ff6f61;
+  background: transparent;
+  color: #ff6f61;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit-btn button:hover {
+  background: #ff6f61;
+  color: white;
+}
+
   </style>
 </head>
 <body>
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html'; // redirect if not logged in
+    }
+  </script>  
 
   <header>
     <h1>RecipeAgenda</h1>
     <nav>
       <a href="create.html">Create</a>
       <a href="recipeBook.html">Recipe Book</a>
-      <a href="#">Logout</a>
+      <a href="#" id="logoutBtn">Logout</a>
     </nav>
   </header>
 
   <form id="createForm">
     <div class="card">
-      <div>
-        <h3>Title:</h3>
-        <input id="title" required />
-        <h3>Ingredients:</h3>
-        <textarea id="ingredients" rows="6" required></textarea>
+      <div class="form-left">
+        <div class="form-column">
+          <h3>Title:</h3>
+          <input id="title" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-column">
+            <h3>Ingredients:</h3>
+            <textarea id="ingredients" rows="6" required></textarea>
+          </div>
+
+          <div class="form-column">
+            <h3>Steps:</h3>
+            <textarea id="steps" rows="6" required></textarea>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3>Steps:</h3>
-        <textarea id="steps" rows="10" required></textarea>
-      </div>
-      <div>
-        <div class="image">image</div>
-        <h3>Category:</h3>
-        <input id="category" required />
-        <h3>Image URL:</h3>
-        <input id="image" placeholder="https://..." />
+
+      <div class="form-right">
+
+        <div style="width: 100%;">
+          <h3>Category:</h3>
+          <input id="category" required />
+        </div>
+
+        <div style="width: 100%;">
+          <h3>Image URL:</h3>
+          <input id="image" placeholder="https://..." />
+        </div>
       </div>
     </div>
 
@@ -156,5 +209,17 @@
       window.location.href = "recipeBook.html";
     });
   </script>
+
+  <script>
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = 'index.html';
+      });
+    }
+  </script>
+
 </body>
 </html>

@@ -3,32 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <title>Recipe Detail</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', cursive;
+      font-family: 'Segoe UI', sans-serif;
       background-color: #fff8f2;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
 
     header {
       background: #ffcf99;
-      padding: 20px;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     header h1 {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 28px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 32px;
       color: #ff6f61;
     }
 
     nav a {
-      margin: 0 10px;
+      margin-left: 15px;
       padding: 10px 20px;
       border: 2px solid white;
       border-radius: 20px;
@@ -38,99 +37,179 @@
       font-weight: bold;
     }
 
+    form {
+      margin-top: 40px;
+    }
+
     .card {
       background: #ff6f61;
-      margin: 40px auto;
-      padding: 30px;
       border-radius: 30px;
       width: 85%;
+      margin: 40px auto;
+      padding: 40px;
+      display: flex;
+      gap: 40px;
       color: white;
-      display: grid;
-      grid-template-columns: 2fr 2fr 1fr;
-      gap: 20px;
+      justify-content: space-between;
     }
 
-    .card h3 {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 22px;
+    .form-left {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
 
-    .card input, .card textarea {
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .form-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      justify-content: flex-start;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    input, textarea {
+      background: transparent;
+      border: 2px solid white;
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 16px;
+      color: white;
       width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 14px;
-      resize: vertical;
+      box-sizing: border-box;
     }
 
-    .category, .image {
+    textarea {
+      resize: vertical;
+      min-height: 160px;
+    }
+
+    .submit-btn {
+      margin: 40px auto;
       text-align: center;
     }
 
-    .image {
-      background: #ddd;
-      height: 150px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #444;
-    }
-
-    .buttons {
-      margin-top: 20px;
-    }
-
-    .buttons button {
-      margin: 10px;
-      padding: 10px 30px;
+    .submit-btn button {
+      padding: 12px 40px;
       border-radius: 20px;
       border: 2px solid #ff6f61;
-      background: white;
+      background: transparent;
       color: #ff6f61;
       font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
+      transition: 0.3s ease;
     }
 
-    .buttons button:hover {
+    .submit-btn button:hover {
       background: #ff6f61;
       color: white;
+    }
+
+    .nutrition-section {
+      width: 85%;
+      margin: 0 auto 40px;
+      background: #ff6f61;
+      color: white;
+      border-radius: 20px;
+      padding: 30px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .nutrition-section h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .nutrition-section p {
+      margin: 5px 0;
     }
   </style>
 </head>
 <body>
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+  </script>
 
   <header>
     <h1>RecipeAgenda</h1>
     <nav>
       <a href="create.html">Create</a>
       <a href="recipeBook.html">Recipe Book</a>
-      <a href="#">Logout</a>
+      <a href="#" id="logoutBtn">Logout</a>
     </nav>
   </header>
 
   <form id="detailForm">
     <div class="card">
-      <div>
-        <h3>Title:</h3>
-        <input id="title" />
-        <h3>Ingredients:</h3>
-        <textarea id="ingredients" rows="6"></textarea>
+      <div class="form-left">
+        <div class="form-column">
+          <h3>Title:</h3>
+          <input id="title" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-column">
+            <h3>Ingredients:</h3>
+            <textarea id="ingredients" rows="6" required></textarea>
+          </div>
+
+          <div class="form-column">
+            <h3>Steps:</h3>
+            <textarea id="steps" rows="6" required></textarea>
+          </div>
+        </div>
       </div>
-      <div>
-        <h3>Steps:</h3>
-        <textarea id="steps" rows="10"></textarea>
-      </div>
-      <div>
-        <div class="image">image</div>
-        <h3>Category:</h3>
-        <input id="category" />
+
+      <div class="form-right">
+
+        <div style="width: 100%;">
+          <h3>Category:</h3>
+          <input id="category" required />
+        </div>
+
+        <div style="width: 100%;">
+          <h3>Image URL:</h3>
+          <input id="image" placeholder="https://..." />
+        </div>
       </div>
     </div>
 
-    <div class="buttons">
-      <button type="submit">Edit</button>
+    <!-- Add this BELOW the closing div for .card, inside the form -->
+    <div class="nutrition-section">
+      <h3>Nutrition Facts:</h3>
+      <div id="nutrition">
+        <p>Calories: <span id="calories">-</span></p>
+        <p>Fat: <span id="fat">-</span></p>
+        <p>Protein: <span id="protein">-</span></p>
+        <p>Carbs: <span id="carbs">-</span></p>
+      </div>
+    </div>
+
+    <div class="submit-btn">
+      <button type="submit">Save Changes</button>
       <button type="button" id="deleteBtn">Delete</button>
     </div>
   </form>
@@ -146,6 +225,13 @@
       ingredients.value = recipe.ingredients.join(', ');
       steps.value = recipe.steps;
       category.value = recipe.category;
+      if (recipe.nutrition) {
+        document.getElementById('calories').textContent = recipe.nutrition.calories || '-';
+        document.getElementById('fat').textContent = recipe.nutrition.fat || '-';
+        document.getElementById('protein').textContent = recipe.nutrition.protein || '-';
+        document.getElementById('carbs').textContent = recipe.nutrition.carbs || '-';
+      }
+
     };
 
     document.getElementById('detailForm').addEventListener('submit', async (e) => {
@@ -156,16 +242,26 @@
         steps: steps.value,
         category: category.value
       });
-      alert("Recipe updated!");
+      alert("✅ Recipe updated!");
     });
 
     document.getElementById('deleteBtn').addEventListener('click', async () => {
       if (confirm('Delete this recipe?')) {
         await deleteRecipe(id);
-        alert("Recipe deleted");
+        alert("🗑️ Recipe deleted.");
         window.location.href = "recipeBook.html";
       }
     });
+  </script>
+  <script>
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = 'index.html';
+      });
+    }
   </script>
 </body>
 </html>

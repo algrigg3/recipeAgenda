@@ -3,45 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recipe Agenda</title>
-  <link rel="stylesheet" href="styles.css" /> <!-- Optional -->
+  <title>Login - Recipe Agenda</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fff6f0;
-      text-align: center;
-      padding: 50px;
+      background-color: #fff6f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
 
     h1 {
-      color: #ff7f50;
-      margin-bottom: 20px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 48px;
+      color: #ff6f61;
+      margin-bottom: 30px;
     }
 
-    nav a {
-      display: inline-block;
-      margin: 10px 20px;
-      padding: 12px 24px;
-      background-color: #ffb386;
-      border-radius: 10px;
-      text-decoration: none;
+    .auth-box {
+      background-color: #ff6f61;
+      border-radius: 30px;
+      padding: 40px;
+      width: 320px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      color: white;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 15px;
+      font-size: 16px;
+      background-color: #ffa896;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #ffeae5;
+    }
+
+    button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      border: 2px solid white;
+      background: transparent;
       color: white;
       font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
       transition: 0.3s;
     }
 
-    nav a:hover {
-      background-color: #ffa96b;
+    button:hover {
+      background: white;
+      color: #ff6f61;
+    }
+
+    .toggle {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .toggle a {
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Recipe Agenda 🍝</h1>
-  <p>Your digital cookbook to create, explore, and organize recipes!</p>
 
-  <nav>
-    <a href="create.html">➕ Create Recipe</a>
-    <a href="recipeBook.html">📖 View Recipe Book</a>
-  </nav>
+  <h1>RecipeAgenda</h1>
+
+  <div class="auth-box">
+    <!-- Login Form -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginUsername">Username:</label>
+        <input id="loginUsername" type="text" placeholder="Enter username" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password:</label>
+        <input id="loginPassword" type="password" placeholder="Enter password" required />
+      </div>
+      <button type="submit">Login</button>
+      <div class="toggle">Don't have an account? <a id="showSignup">Sign up</a></div>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="hidden">
+      <div class="form-group">
+        <label for="signupUsername">Username:</label>
+        <input id="signupUsername" type="text" placeholder="Choose a username" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password:</label>
+        <input id="signupPassword" type="password" placeholder="Choose a password" required />
+      </div>
+      <button type="submit">Create Account</button>
+      <div class="toggle">Already have an account? <a id="showLogin">Log in</a></div>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const showSignup = document.getElementById('showSignup');
+    const showLogin = document.getElementById('showLogin');
+  
+    const API_BASE = 'http://localhost:5000/api/auth'; // Adjust if hosted differently
+  
+    showSignup.onclick = () => {
+      loginForm.classList.add('hidden');
+      signupForm.classList.remove('hidden');
+    };
+  
+    showLogin.onclick = () => {
+      signupForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+    };
+  
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+  
+      try {
+        const res = await fetch(`${API_BASE}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+  
+        const data = await res.json();
+  
+        if (!res.ok) throw new Error(data.message || 'Login failed');
+  
+        // Save token and redirect
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        window.location.href = 'recipeBook.html';
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('signupUsername').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+  
+      try {
+        const res = await fetch(`${API_BASE}/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+  
+        const data = await res.json();
+  
+        if (!res.ok) throw new Error(data.message || 'Signup failed');
+  
+        alert('🎉 Account created! You can now log in.');
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  </script>
+  
 </body>
 </html>

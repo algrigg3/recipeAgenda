@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const recipeSchema = new mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   title: String,
   description: String,
   ingredients: [String],

@@ -1,9 +1,21 @@
 const API_BASE = 'http://localhost:5000/api/recipes';
 
 export async function getAllRecipes() {
-  const res = await fetch(API_BASE);
-  return await res.json();
+  const token = localStorage.getItem('token');
+
+  const res = await fetch('http://localhost:5000/api/recipes', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch recipes');
+  }
+
+  return res.json();
 }
+
 
 export async function getRecipeById(id) {
   const res = await fetch(`${API_BASE}/${id}`);
@@ -11,26 +23,49 @@ export async function getRecipeById(id) {
 }
 
 export async function createRecipe(recipeData) {
+  const token = localStorage.getItem('token');
+
   const res = await fetch(API_BASE, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(recipeData),
   });
+
+  if (!res.ok) throw new Error('Failed to create recipe');
   return await res.json();
 }
+
 
 export async function updateRecipe(id, updatedData) {
+  const token = localStorage.getItem('token');
+
   const res = await fetch(`${API_BASE}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(updatedData),
   });
+
+  if (!res.ok) throw new Error('Failed to update recipe');
   return await res.json();
 }
 
+
 export async function deleteRecipe(id) {
+  const token = localStorage.getItem('token');
+
   const res = await fetch(`${API_BASE}/${id}`, {
     method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
   });
+
+  if (!res.ok) throw new Error('Failed to delete recipe');
   return await res.json();
 }

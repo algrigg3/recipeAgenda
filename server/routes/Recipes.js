@@ -1,23 +1,38 @@
 import express from 'express';
 import Recipe from '../models/Recipe.js';
+import { getNutritionFromSpoonacular } from '../controllers/spoonacular.js'; // ✅ add this
+import { verifyToken } from '../controllers/middleware.js';
 
 const router = express.Router();
 
 // POST /api/recipes — add a new recipe
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
-    const recipe = new Recipe(req.body);
+    const { title, ingredients } = req.body;
+
+    // Get nutrition info from Spoonacular
+    const nutrition = await getNutritionFromSpoonacular(title, ingredients);
+
+    const recipe = new Recipe({
+      ...req.body,
+      createdBy: req.userId,
+      nutrition  // ✅ save nutrition in DB
+    });
+
     await recipe.save();
     res.status(201).json(recipe);
   } catch (err) {
+    console.error("🍎 Spoonacular error:", err.message);
     res.status(400).json({ error: err.message });
   }
 });
 
+
+
 // GET /api/recipes — get all recipes
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const recipes = await Recipe.find({ createdBy: req.userId });
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ error: err.message });

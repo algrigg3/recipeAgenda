@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import recipeRoutes from '../server/routes/Recipes.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const PORT = 5000;
@@ -13,13 +14,15 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth', authRoutes);
+
 // Test route
 app.get('/', (req, res) => {
   res.send('Recipe Agenda backend is running!');
 });
 app.use('/api/recipes', recipeRoutes);
 
-
+console.log('🔑 JWT_SECRET:', process.env.JWT_SECRET);
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
