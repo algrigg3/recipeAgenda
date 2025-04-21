@@ -1,5 +1,5 @@
 const API_BASE = 'https://recipeagenda-backend.onrender.com/api/recipes';
-git 
+
 export async function getAllRecipes() {
   const token = localStorage.getItem('token');
 
