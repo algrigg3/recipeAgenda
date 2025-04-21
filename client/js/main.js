@@ -1,9 +1,9 @@
 const API_BASE = 'https://recipeagenda-backend.onrender.com/api/recipes';
-
+git 
 export async function getAllRecipes() {
   const token = localStorage.getItem('token');
 
-  const res = await fetch('http://localhost:5000/api/recipes', {
+  const res = await fetch('https://recipeagenda-backend.onrender.com/api/recipes', {
     headers: {
       'Authorization': `Bearer ${token}`
     }
