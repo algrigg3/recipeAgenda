@@ -97,20 +97,26 @@
     import { getAllRecipes } from './js/main.js';
 
     window.onload = async () => {
-      const recipes = await getAllRecipes();
-      const grid = document.getElementById('recipesGrid');
-      grid.innerHTML = recipes.map(recipe => `
-        <div class="card">
-          <h3>Title: ${recipe.title}</h3>
-          <div class="card-image">
-            <img src="${recipe.imageUrl || 'https://t4.ftcdn.net/jpg/00/53/09/43/360_F_53094377_WzIVpXcKfVgrIgmC3iY0FIhm8nTR4xaQ.jpg'}" 
-                style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;" />
+      try {
+        const recipes = await getAllRecipes();
+        const grid = document.getElementById('recipesGrid');
+        grid.innerHTML = recipes.map(recipe => `
+          <div class="card">
+            <h3>Title: ${recipe.title}</h3>
+            <div class="card-image">
+              <img src="${recipe.imageUrl || 'https://t4.ftcdn.net/jpg/00/53/09/43/360_F_53094377_WzIVpXcKfVgrIgmC3iY0FIhm8nTR4xaQ.jpg'}"
+                  style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;" />
+            </div>
+            <p>Category: ${recipe.category}</p>
+            <a href="detail.html?id=${recipe._id}" style="margin-top: 10px; color: white; text-decoration: underline;">View Recipe</a>
           </div>
-          <p>Category: ${recipe.category}</p>
-          <a href="detail.html?id=${recipe._id}" style="margin-top: 10px; color: white; text-decoration: underline;">View Recipe</a>
-        </div>
-      `).join('');
+        `).join('');
+      } catch (err) {
+        console.error('❌ Failed to load recipes:', err);
+        alert(`❌ Could not load recipes: ${err.message}`);
+      }
     };
+
   </script>
   
   <script>
