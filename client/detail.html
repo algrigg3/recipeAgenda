@@ -242,13 +242,13 @@
         steps: steps.value,
         category: category.value
       });
-      alert("✅ Recipe updated!");
+      alert("Recipe updated!");
     });
 
     document.getElementById('deleteBtn').addEventListener('click', async () => {
       if (confirm('Delete this recipe?')) {
         await deleteRecipe(id);
-        alert("🗑️ Recipe deleted.");
+        alert("Recipe deleted.");
         window.location.href = "recipeBook.html";
       }
     });

@@ -4,8 +4,8 @@ dotenv.config();
 
 export async function getNutritionFromSpoonacular(title, ingredients) {
     const apiKey = process.env.SPOONACULAR_API_KEY;
-    console.log("🔑 Spoonacular API Key:", apiKey);
-    console.log("📤 Sending to Spoonacular:", { title, ingredients });
+    console.log("Spoonacular API Key:", apiKey);
+    console.log("Sending to Spoonacular:", { title, ingredients });
   
     const response = await fetch(`https://api.spoonacular.com/recipes/analyze?apiKey=${apiKey}&includeNutrition=true`, {
 
@@ -15,7 +15,7 @@ export async function getNutritionFromSpoonacular(title, ingredients) {
     });
   
     const text = await response.text();
-    console.log("📥 Spoonacular response:", response.status, text);
+    console.log("Spoonacular response:", response.status, text);
   
     if (!response.ok) {
       throw new Error(`Spoonacular error ${response.status}: ${text}`);

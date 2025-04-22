@@ -11,7 +11,7 @@ export async function getAllRecipes() {
 
   if (!res.ok) {
     const errorText = await res.text();
-    throw new Error(`❌ Failed to fetch recipes: ${res.status} ${errorText}`);
+    throw new Error(`Failed to fetch recipes: ${res.status} ${errorText}`);
   }
 
   return res.json();

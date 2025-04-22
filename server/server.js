@@ -22,12 +22,12 @@ app.get('/', (req, res) => {
 });
 app.use('/api/recipes', recipeRoutes);
 
-console.log('🔑 JWT_SECRET:', process.env.JWT_SECRET);
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+      console.log(`Server running on http://localhost:${PORT}`);
     });
   })
-  .catch((error) => console.error('❌ MongoDB connection error:', error));
+  .catch((error) => console.error('MongoDB connection error:', error));

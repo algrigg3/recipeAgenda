@@ -1,6 +1,6 @@
 import express from 'express';
 import Recipe from '../models/Recipe.js';
-import { getNutritionFromSpoonacular } from '../controllers/spoonacular.js'; // ✅ add this
+import { getNutritionFromSpoonacular } from '../controllers/spoonacular.js';
 import { verifyToken } from '../controllers/middleware.js';
 
 const router = express.Router();
@@ -16,13 +16,13 @@ router.post('/', verifyToken, async (req, res) => {
     const recipe = new Recipe({
       ...req.body,
       createdBy: req.userId,
-      nutrition  // ✅ save nutrition in DB
+      nutrition 
     });
 
     await recipe.save();
     res.status(201).json(recipe);
   } catch (err) {
-    console.error("🍎 Spoonacular error:", err.message);
+    console.error("Spoonacular error:", err.message);
     res.status(400).json({ error: err.message });
   }
 });
