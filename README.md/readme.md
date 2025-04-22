@@ -26,7 +26,7 @@ Open the live frontend URL: https://recipeagenda-frontend.onrender.com
 
 Create an account via the Sign Up form.
 
-Log in with your credentials. Also check out username- test5 password- test5, to see a already created page with recipes.
+Log in with your credentials. Also check out username- user345 password- user345, to see a already created page with recipes.
 
 Navigate using the top nav:
 
